@@ -11,8 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('games', function (Blueprint $table) {
-            //
+        Schema::create('games', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('season_id')->constrained('seasons')->cascadeOnDelete();
+            $table->foreignId('home_team_id')->constrained('teams')->cascadeOnDelete();
+            $table->foreignId('away_team_id')->constrained('teams')->cascadeOnDelete();
+            $table->unsignedTinyInteger('week');
+            $table->dateTime('kickoff_at')->nullable();
+            $table->unsignedSmallInteger('home_score')->nullable();
+            $table->unsignedSmallInteger('away_score')->nullable();
+            $table->string('status', 20)->default('scheduled');
+            $table->unique(['season_id', 'week', 'home_team_id', 'away_team_id']);
+            $table->timestamps();
+            
         });
     }
 
@@ -21,8 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('games', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('games');
     }
 };

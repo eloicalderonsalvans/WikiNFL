@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('conferences', function (Blueprint $table) {
-            //
+        Schema::create('conferences', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->string('abbreviation',3)->unique();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('conferences', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('conferences');
     }
 };

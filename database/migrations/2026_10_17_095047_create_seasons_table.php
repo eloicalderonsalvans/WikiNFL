@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('seasons', function (Blueprint $table) {
-            //
+        Schema::create('seasons', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedSmallInteger('year')->unique();
+            $table->string('phase', 20)->default('regular'); // preseason|regular|playoffs|offseason
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('seasons', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('seasons');
     }
 };

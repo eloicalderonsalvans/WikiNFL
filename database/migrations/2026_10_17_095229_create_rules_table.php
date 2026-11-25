@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('rules', function (Blueprint $table) {
-            //
+        Schema::create('rules', function (Blueprint $table) {
+            $table->id();
+            $table->string('category')->index();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->text('body');
+            $table->unsignedSmallInteger('sort_order')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -21,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('rules', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('rules');
     }
 };
